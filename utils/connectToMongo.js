@@ -4,10 +4,11 @@ export const connectToMongo = () => {
   mongoose
     .connect(process.env.MONGO_URL, {})
     .then(() => {
-      console.log("Initialising Mongo...");
+      console.log("Connecting MongoDB");
     })
     .catch((err) => {
       console.error("Error connecting to MongoDB:", err);
+      throw err
     });
 
   mongoose.connection.on("connected", () => {

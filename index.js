@@ -25,8 +25,8 @@ app.use(morgan("common"));
 app.use("/api/users", userRouter);
 
 // setting up connections
-connectToMongo();
 app.listen(PORT, () => {
+  connectToMongo();
   console.log("server running on ", PORT);
 });
 
