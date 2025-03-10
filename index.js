@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import mongoose from "mongoose";
 import { connectToMongo } from "./utils/connectToMongo.js";
 import userRouter from "./routes/users.js";
+import hotelRouter from "./routes/hotels.js";
 
 dotenv.config();
 
@@ -21,8 +21,10 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("common"));
 
-// setting up APIs
+// setting up API (middlewares)
 app.use("/api/users", userRouter);
+app.use("/api/hotels", hotelRouter);
+
 
 // setting up connections
 app.listen(PORT, () => {
