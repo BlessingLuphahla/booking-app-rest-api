@@ -25,6 +25,10 @@ app.use(morgan("common"));
 app.use("/api/users", userRouter);
 app.use("/api/hotels", hotelRouter);
 
+// setting up error handling middlewares
+app.use((req, res, next) => {
+  
+});
 
 // setting up connections
 app.listen(PORT, () => {
