@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { connectToMongo } from "./utils/connectToMongo.js";
 import userRouter from "./routes/users.js";
 import hotelRouter from "./routes/hotels.js";
+import authRouter from "./routes/auth.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(morgan("common"));
 // setting up API (middlewares)
 app.use("/api/users", userRouter);
 app.use("/api/hotels", hotelRouter);
+app.use("/api/auth", authRouter);
 
 // setting up error handling middlewares
 app.use((error, req, res, next) => {
