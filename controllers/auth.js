@@ -1,6 +1,7 @@
 import { createError } from "../utils/error.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -40,16 +41,29 @@ export const loginUser = async (req, res, next) => {
       );
     }
 
-    if (!bcrypt.compareSync(req.body.password, user.password)) {
+    const isPasswordCorrect = bcrypt.compareSync(
+      req.body.password,
+      user.password
+    );
+
+    if (!isPasswordCorrect) {
       return next(
         createError({
           message: `Incorrect password!!`,
-          status: 401,
+          status: 400,
         })
       );
     }
 
-    res.status(200).json(user);
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.SECRET_KEY,
+      {}
+    );
+
+    const { password, isAdmin, ...userWithoutPass } = user._doc;
+
+    res.status(200).json(userWithoutPass);
   } catch (error) {
     next(createError(error));
   }
