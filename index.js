@@ -26,8 +26,8 @@ app.use("/api/users", userRouter);
 app.use("/api/hotels", hotelRouter);
 
 // setting up error handling middlewares
-app.use((req, res, next) => {
-  
+app.use((error, req, res, next) => {
+  return res.status(404).json(error);
 });
 
 // setting up connections
