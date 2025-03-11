@@ -1,9 +1,9 @@
 export const createError = (error) => {
-  const newError = new Error();
+  const err = new Error();
 
-  newError.status = error.status || 500;
-  newError.message = error.message || "Something went wrong";
-  newError.success = false;
+  err.status = error.status || 500;
+  err.message = error.message || "Something went wrong";
+  err.success = false;
 
-  return newError;
+  return err;
 };
