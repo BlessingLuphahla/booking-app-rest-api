@@ -2,7 +2,7 @@ import Hotel from "../models/Hotel.js";
 import { createError } from "../utils/error.js";
 
 export const createHotel = async (req, res, next) => {
-  const hotel = Hotel(req.body);
+  const hotel = new Hotel(req.body);
   try {
     const savedHotel = await hotel.save();
     res.status(201).json(savedHotel);
@@ -10,7 +10,6 @@ export const createHotel = async (req, res, next) => {
     next(createError(error));
   }
 };
-
 
 export const updateHotel = async (req, res, next) => {
   try {
