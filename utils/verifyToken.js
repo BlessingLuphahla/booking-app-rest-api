@@ -4,6 +4,7 @@ import { createError } from "./error.js";
 
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
+
   if (!token) {
     return next(
       createError({ message: "you are not authenticated", status: 404 })
@@ -11,6 +12,11 @@ export const verifyToken = (req, res, next) => {
   }
 
   jwt.verify(token, process.env.SECRET_KEY, (error, user) => {
+    if (user.isAdmin) {
+      req.user = user;
+      next();
+    }
+
     if (error)
       return next(createError({ message: "Token Is Not Valid", status: 404 }));
 

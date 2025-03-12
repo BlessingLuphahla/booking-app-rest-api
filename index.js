@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { connectToMongo } from "./utils/connectToMongo.js";
 import userRouter from "./routes/users.js";
 import hotelRouter from "./routes/hotels.js";
+import roomRouter from "./routes/rooms.js";
 import authRouter from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 
@@ -27,6 +28,7 @@ app.use(morgan("common"));
 // setting up API (middlewares)
 app.use("/api/users", userRouter);
 app.use("/api/hotels", hotelRouter);
+app.use("/api/rooms", roomRouter);
 app.use("/api/auth", authRouter);
 
 // setting up error handling middlewares
