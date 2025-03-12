@@ -64,7 +64,7 @@ export const loginUser = async (req, res, next) => {
 
     res
       .cookie("access_token", token, {
-        httpOnly: true,
+        // httpOnly: true,
       })
       .status(200)
       .json(userWithoutPass);
