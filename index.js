@@ -20,8 +20,8 @@ const app = express();
 
 // middlewares
 app.use(cookieParser());
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 
