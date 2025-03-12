@@ -21,12 +21,12 @@ export const registerUser = async (req, res, next) => {
 
 export const loginUser = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findOne({ username: req.body.username });
 
     if (!user) {
       return next(
         createError({
-          message: `The user with the username "${req.params.username}" doesnt exist`,
+          message: `The user with the username "${req.body.username}" doesnt exist`,
           status: 401,
         })
       );
@@ -57,13 +57,17 @@ export const loginUser = async (req, res, next) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.SECRET_KEY,
-      {}
+      process.env.SECRET_KEY
     );
 
     const { password, isAdmin, ...userWithoutPass } = user._doc;
 
-    res.status(200).json(userWithoutPass);
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(userWithoutPass);
   } catch (error) {
     next(createError(error));
   }
