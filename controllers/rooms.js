@@ -22,6 +22,37 @@ export const createRoom = async (req, res, next) => {
   }
 };
 
+export const deleteRoom = async (req, res, next) => {
+  try {
+    const room = await Room.findByIdAndDelete(req.params.id);
+    const hotelId = req.params.hotelId;
+
+    if (!room) {
+      return next(
+        createError({
+          status: 404,
+          message: "The room you are trying to delete doesnt exist",
+        })
+      );
+    }
+    await Room.findByIdAndDelete(room._id);
+
+    try {
+      await Hotel.findByIdAndUpdate(hotelId, {
+        $pull: { rooms: room._id },
+      });
+
+      res.status(200).json("Room deleted successfully");
+    } catch (error) {
+      next(createError(error));
+    }
+
+    res.status(200).json("Room Has Been Deleted");
+  } catch (error) {
+    next(createError(error));
+  }
+};
+
 export const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(
@@ -32,27 +63,6 @@ export const updateRoom = async (req, res, next) => {
       { new: true }
     );
     res.status(201).json(updatedRoom);
-  } catch (error) {
-    next(createError(error));
-  }
-};
-
-export const deleteRoom = async (req, res, next) => {
-  try {
-    const room = await Room.findByIdAndDelete(req.params.id);
-
-    if (!room) {
-      next(
-        createError({
-          status: 404,
-          message: "The room you are trying to delete doesnt exist",
-        })
-      );
-      return;
-    }
-
-    await Room.findByIdAndDelete(req.params.id);
-    res.status(200).json("Room Has Been Deleted");
   } catch (error) {
     next(createError(error));
   }
