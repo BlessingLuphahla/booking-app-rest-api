@@ -23,7 +23,7 @@ const hotelSchema = mongoose.Schema(
     },
 
     distance: {
-      type: String,
+      type: Number,
       required: true,
     },
 
@@ -57,7 +57,7 @@ const hotelSchema = mongoose.Schema(
       required: true,
     },
 
-    feautured: {
+    featured: {
       type: Boolean,
       default: false,
     },
